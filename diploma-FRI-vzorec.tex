@@ -24,6 +24,10 @@
 \usepackage{hyperxmp}
 \usepackage[hyphens]{url}
 \usepackage{csquotes}
+\usepackage{listings}
+\renewcommand{\lstlistingname}{Izvorna koda}
+\lstset{basicstyle=\footnotesize\ttfamily}
+
 \usepackage[pdftex, colorlinks=true,
 						citecolor=black, filecolor=black, 
 						linkcolor=black, urlcolor=black,
@@ -393,23 +397,28 @@ We run everything inside Docker containers. Maps are implemented using the Mapbo
 
 \chapter{Uvod}
 \section{Motivacija}
-
 Vsako leto veliko ljudi obišče kakšen glasbeni festival. Pridobivanje informacij in samo načrtovanje obiska pa lahko kar hitro postane nadležno, 
 in posledično lahko hitro pokvari uporabniško izkušnjo, že pred samim obiskom festivala.
-Najprej se uporabnik odloči za enega izmed festivalov. Ponavadi to stori na podlagi različnih dejavnikov, kot so cena, lokacija in datum poteka, veliko pa 
-pomenijo tudi predhodne izkušnje ostalih. Problem pa je, da je potrebno vse te informacije iskati po različnih spletnih straneh saj rešitve,
-s katero bi lahko pridobili vse informacije na enem mestu ni. Poleg tega bi bilo smiselno implementirati rešitev, kjer si lahko uporabniki medeseboj pomagajo, 
+Najprej se uporabnik odloči za enega izmed festivalov.
+Ponavadi to stori na podlagi različnih dejavnikov, kot so cena, lokacija in datum poteka, veliko pa pomenijo tudi predhodne izkušnje ostalih.
+Problem pa je, da je potrebno vse te informacije iskati po različnih spletnih straneh saj rešitve, s katero bi lahko pridobili vse informacije na enem mestu ni. 
+Poleg tega bi bilo smiselno implementirati rešitev, kjer si lahko uporabniki medesebojno pomagajo, 
 s tem da delijo predhodne izkušnje, novosti in mnenja v obliki foruma ali pa morda celo dobijo nove prijatelje, v živo razpravljajo in mogoče nekoč celo skupaj
-obiščejo kakšen festival s pomočjo klepetov v živo. Z razvojem namenske spletne aplikacije bi obiskovalcem festivalov lahko pomagali tako, da bi se za vsako pomoč lahko obrnili na našo rešitev, 
-istočasno pa bi se z medsebojno pomočjo gradile skupnosti za glasbene festivale.
+obiščejo kakšen festival s pomočjo klepetov v živo. 
+
+\section{Cilji}
+Cilj diplomske naloge je torej razviti spletno aplikacijo, ki bo uporabnikom olajšala iskanje glasbenih festivalov in udeležbo na njih, 
+ustvariti skupnost, v kateri lahko uporabniki izmenjujejo izkušnje, nasvete in novice,
+ter vzpodbuditi interakcijo med obiskovalci festivala v živo, ter s tem izboljšati festivalsko izkušnjo.
+
+\section{Struktura diplomske naloge}
 
 % TODO poglej si kaj je ref{}
 
 
 \chapter{Obstoječe rešitve}
-
 V uporabi trenutno ni nobene podobne rešitve, zaradi česar se obiskovalci festivalov poslužujejo različnih aplikacij in spletnih strani. 
-Za postavljanje vprašanj in objavljanje novic sta to Reddit ali pa Tripadvisor. Ti rešitvi nista primarno namenjeni glasbenim festivalom, 
+Za postavljanje vprašanj sta to običajno Reddit ali pa Tripadvisor. Ti rešitvi nista primarno namenjeni glasbenim festivalom, 
 zato težko najdemo koristne podatke, saj vsebujeta le forume za večje festivale.
 Poleg tega mora vsak uporabljati več aplikacij za različne namene in zato nimamo vsega na eni platformi. Uporabnik mora tako npr. za iskanje informacij o festivalu najprej na spletno stran festivala,
 nato prebira različne forume (Reddit, Tripadvisor), zraven tega še išče prenočišča na Bookingu, potem pa se še na tretji platformi z ostalimi pogovarja/dogovarja (npr. Messenger).
@@ -453,7 +462,7 @@ pa so po večini skupnosti največjih glasbenih festivalov na svetu (Coachella, 
 \end{itemize}
 
 \section{Woov}
-Woov je namenska aplikacija za obiskovalce glasbenih festivalov \cite{woov}. Povezani so z več kot 1000 dogodki po 40 državah, uporabnikom pa omogočajo vpogled v časovnice, zemljevid prizorišč in komunikacijo z ostalimi uporabniki.
+Woov je namenska aplikacija za obiskovalce glasbenih festivalov~\cite{woov}. Povezani so z več kot 1000 dogodki po 40 državah, uporabnikom pa omogočajo vpogled v časovnice, zemljevid prizorišč in komunikacijo z ostalimi uporabniki.
 Namen aplikacije je pomagati obiskovalcem, ki so že na prizorišču.
 
 \begin{itemize}
@@ -473,13 +482,14 @@ Namen aplikacije je pomagati obiskovalcem, ki so že na prizorišču.
         \end{itemize}
 \end{itemize}
 
+% NOVO POGLAVJE
 \chapter{Zajem zahtev}
-Eden ključnih delov pri postopku razvoja programske rešitve je zajem zahtev, saj omogoča lažje razumevanje problema, ter zagotavlja, 
-da sistem izpolnjuje vsa pričakovanja in usmerja celoten razvojni proces od načrtovanja do testiranja.
-V osnovi jih delimo na funkcionalne in nefunkcionalne zahteve.
+Preden smo sploh začeli z načrtovanjem podatkovne baze in kodiranjem, je bilo potrebno definirati vse naloge, ki jih bo sistem opravljal.
+S tem smo si zadali načrt in ogrodje, kateremu smo pri razvoju nato sledili.
+Z dobro definicijo zahtev smo dosegli to, da smo zmanjšali verjetnost pomembnih sprememb med razvojem, s čimer smo prihranili čas in trud.
 
-\section{Funkcionalne zahteve}
-Sistem mora uporabniku omogočiti:
+\section{Funkcionalnosti sistema}
+Naša aplikacija mora uporabniku omogočiti:
 \begin{itemize}
     \item Registracijo in prijavo.
     \item Pregled nad glasbenimi festivali z možnostjo iskanja in filtriranja.
@@ -502,18 +512,22 @@ Moderatorji pa lahko povrh vsega še:
     \item Brišejo neprimerne komentarje.
 \end{itemize}
 
-\section{Nefunkcionalne zahteve}
-\begin{itemize}
-    \item Javni klepeti ter obvestila naj omogočajo realnočasovno komunikacijo. Uporabniku se morajo nova sporočila takoj prikazati na zaslonu.
-\end{itemize}
-
 \section{Diagram primerov uporabe}
+Na Sliki~\ref{usecase} je prikazan diagram primerov uporabe za našo aplikacijo. 
+V diagramu nastopata 2 akterja in sicer Uporabnik in Moderator.
+Iz diagrama je razvidno, kaj lahko oba tipa uporabnikov v aplikaciji počneta.
+Podrobneje pa bomo delovanje aplikacije predstavili v poglavju~\ref{UI}.
 
+\begin{figure}[p] % OPTIONS h-here, t-top, b-bottom, p-page
+\begin{center}
+    \includegraphics[width=0.99\textwidth]{img/UseCase}
+\end{center}
+\caption{Diagram primerov uporabe.}
+\label{usecase}
+\end{figure}
 
-\chapter{Načrtovanje sistema}
-
+% NOVO POGLAVJE
 \chapter{Uporabljene tehnologije in orodja}
-% TODO - directions api za mapbox, geocoding nevem al je api al ne?
 Odločili smo se za uporabo modernih, dobro poznanih in pogosto uporabljenih tehnologij in orodij. Za čelni del smo uporabili
 Nuxt \cite{nuxtintro}, ki temelji na ogrodju Vue.js \cite{vuejs}. Za zaledni del smo izbrali Django \cite{django} s knjižnico Django REST Framework \cite{drf}, 
 ki močno olajša razvoj API vmesnikov in upravljanje s podatkovno bazo. Za podatkovno bazo smo uporabili PostgreSQL \cite{postgre}.
@@ -530,7 +544,6 @@ ter Djoser \cite{djoser}, ki ponuja vnaprej definirane končne točke za registr
 Nuxt.js (na kratko Nuxt) je brezplačno odprtokodno orodje za razvoj čelnega dela spletnih aplikacij z Vue.js. V naši aplikaciji smo ga uporabili zato, ker 
 omogoča hiter, enostaven, predvsem pa učinkovit razvoj aplikacij. 
 
-Omogoča pisanje varne kode s samodejno generiranimi tipi, brez potrebe po učenju TypeScript \cite{typescript}.
 Poleg tega Nuxt nudi tudi SSR (Server-Side Rendering), ki omogoča hitrejše čase nalaganja strani in SEO (Search Engine Optimization). Pri tem strežnik po začetni zahtevi odjemalca 
 pošlje v celoti renderirano stran nazaj odjemalcu. JavaScript na strani odjemalca nato omogoči, da statična stran postane interaktivna Vue.js aplikacija (hidracija) \cite{hydration}.
 
@@ -566,10 +579,9 @@ Mapbox je spletna platforma, ki razvijalcem ponuja širok nabor orodij za delo z
 V naši aplikaciji smo uporabili večino glavnih storitev, ki jih omogoča in sicer \cite{mapboxservices}:
 \begin{itemize}
     \item \textbf{Mapbox Maps}, ki omogoča prikaz zemljevidov po meri z lokacijami. V naši aplikaciji prikazuje vse zemljevide.
-    \item \textbf{Mapbox Navigation}, ki omogoča iskanje in izrisovanje poti. V naši aplikaciji služi izrisovanju poti od vnešene lokacije do festivala.
-    \item \textbf{Geocoding API}, ki spreminja koordinate v naslove in obratno. V naši aplikaciji je uporabljen za človeku prijazen prikaz lokacije.
-    \item \textbf{Mapbox Search}, ki omogoča iskanje lokacij. V naši aplikaciji je uporabljen za iskanje začetnih lokacij pri navigaciji.
-    \item \textbf{Mapbox GL Geocoder}, ki omogoča interaktivno iskanje po zemljevidu. V naši aplikaciji je na voljo moderatorjem, da lahko na interaktiven način poiščejo lokacijo festivala.
+    \item \textbf{Mapbox Directions API}, ki omogoča iskanje poti. V naši aplikaciji služi izrisovanju poti od vnešene lokacije do festivala.
+    \item \textbf{Geocoding API}, ki spreminja koordinate v naslove in obratno. V naši aplikaciji je uporabljen, da koordinate pretvori v človeku prijazno predstavitev.
+    \item \textbf{Mapbox Search Box}, ki omogoča iskanje lokacij. V naši aplikaciji je uporabljen za iskanje začetnih lokacij pri navigaciji in za interaktivno iskanje po zemljevidu.
 \end{itemize}
 
 \section{Docker}
@@ -579,358 +591,387 @@ S tem ustvarimo lahko izvedljivo datoteko, ki se lahko enako izvaja na kateri ko
 Prednosti uporabe Dockerja je veliko, v našem primeru pa smo ga uporabili predvsem zaradi izolacije okolja in lahke prenosljivosti.
 V Dockerju smo poganjali Django aplikacijo ter podatkovno bazo.
 
+% NOVO POGLAVJE
 \chapter{Razvoj rešitve}
+V tem poglavju bomo predstavili celoten proces razvoja naše rešitve, od začetnega načrtovanja arhitekture in podatkovne baze, do končne rešitve.
+Pri tem se bomo posvetili predvsem na podatkovno bazo, implementacijo nekaterih glavnih funkcij aplikacije ter uporabniški vmesnik.
 
-\chapter{Predstavitev aplikacije}
+\section{Arhitektura aplikacije}
 
-\chapter{Možne izboljšave}
+\begin{figure}[htb] % OPTIONS h-here, t-top, b-bottom, p-page
+\begin{center}
+\includegraphics[width=\textwidth]{img/Architecture}
+\end{center}
+\caption{Arhitektura razvite rešitve.}
+\label{architecture}
+\end{figure}
+
+Spletna aplikacija je sestavljena iz čelnega dela, kateri podatke pridobiva preko APIja implementiranega v Django Rest Frameworku.
+V zalednem delu Django ORM skrbi za upravljanje s podatkovnimi modeli in poizvedbami.
+Poleg tega skrbi za strganje podatkov o prenočiščih iz spletne strani Booking.com.
+Prav tako pa Django ob vsakem dodanem sporočilu v klepetih pošlje obvestilo s pomočjo Pusher Channels na čelni del aplikacije, da se uporabniku na drugi strani le to takoj prikaže.
+
+Na Sliki \ref{architecture} je prikazana arhitektura naše rešitve.
+
+\section{Podatkovni model}
+% - 1. kratek opis
+% - 2. slika
+% - 3. vsak model razloži
+
+\section{Zaledni del}
+% - 1. na kratko kaj mamo u Djangu (views, models) in kaj v drf(serializers) in zakaj smo uporabili, ku funkcionira ORM
+Za implementacijo zalednega dela smo uporabili Django v kombinaciji z Django Rest Framework.
+
+Django nam je omogočil poenostavljeno delo s podatkovno bazo, saj nam z vgrajenim ORM sistemom, ni potrebno pisati SQL stavkov, temveč lahko kodiramo v Pythonu.
+To naredi vsako interakcijo s podatkovno bazo lažjo in bolj intuitivno, istočasno pa ne rabimo skrbeti glede SQL napadov, saj ORM vsako poizvedbo sestavi s poudarkom na varnosti. 
+
+Knjižnica Django Rest Framework pa nam je z orodji za serializacijo, avtentikacijo in generičnimi pogledi, še dodatno olajšala implementacijo REST APIja.
+
+% - 2. primer modela, viewa in serializera in url, avtentikacijska pravila
+\subsection{Delo s podatkovno bazo}
+Uporaba Django ORM nam je omogočila lahko povezavo z zalednim delom aplikacije.
+V datoteki models.py smo definirali modele.
+Modeli v Djangu predstavljajo strukturo in relacije v podatkovni bazi.
+Vsak model predstavlja eno tabelo, vsak atribut pa eno polje v podatkovni bazi.
+Django ORM potem samodejno poskrbi za kreacijo tabel glede na modele, vendar je potrebno najprej pognati ukaz \textit{python manage.py makemigrations}, da se ustvarijo migracije za vse spremembe.
+Da se spremembe v datoteki z migracijami dejansko uporabijo in posodobijo podatkovno bazo, pa je potrebno pognati še ukaz \textit{python manage.py migrate}.
+
+V spodnji Izvorni kodi~\ref{code1} je prikazano, kako smo definirali model za \textit{Festival}.
+Z opcijo \textit{blank} definiramo, da v zahtevku s čelnega dela ni potrebno navesti določenega polja.
+Z \textit{null} pa definiramo, da je lahko polje v podatkovni bazi NULL.
+Polje \textit{genre} je povezava na tabelo Genre.
+Z \textit{models.SET\_NULL} smo določili, da se ob primeru izbrisa instance žanra v festivalih povezanih s tem žanrom polje \textit{genre} postavi na NULL.
+V razredu Meta pa smo določili, da so ob poizvedbah festivali po privzetem v vrstnem redu glede na polje \textit{name}.
+
+\begin{lstlisting}[label=code1,caption=Primer kreiranja modela \textit{Festival} v Djangu.,frame=tb,captionpos=b]
+class Festival(models.Model):
+    name = models.CharField(max_length=50)
+    info = models.TextField(
+        blank=True, 
+        default='No info provided'
+    )
+    website = models.URLField(
+        blank=True,
+        default='No website provided'
+    )
+    lat = models.FloatField(blank=True, null=True)
+    lon = models.FloatField(blank=True, null=True)
+    date_start = models.DateField(blank=True, null=True)
+    date_end = models.DateField(blank=True, null=True)
+    img = models.URLField(blank=True, null=True)
+
+    genre = models.ForeignKey(
+        Genre, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True
+    )
+
+    class Meta:
+        ordering = ['name']
+\end{lstlisting}
+
+\subsection{API}
+Kot smo že omenili v uvodu v poglavje, smo za komunikacijo čelnega dela aplikacije z zalednim implementirali RESTful API s pomočjo Django Rest Frameworka.
+Na zahteve odjemalca posluša na vratih 8000.
+
+DRF močno pospeši izgradnjo APIjev, saj je za serializacijo podatkov potrebno le definirati razred za vsak model, ter našteti katera polja bomo serializirali.
+S tem povemo, kako naj bodo polja modela predstavljena v obliki JSON, ki je standardni format za APIje.
+Poleg osnovnih polj lahko serializiramo tudi izpeljana polja, ki niso neposredno na voljo v modelu.
+To lahko naredimo tako, da definiramo metodo za izračun vrednosti.
+
+V Izvorni kodi~\ref{code2} lahko vidimo primer serializacije podatkov za model \textit{Festival} s tremi dodatnimi izpeljanimi vrednostmi, ki jih izračunajo metode:
+\begin{itemize}
+    \item \textbf{is\_favourite} - Glede na uporabnika, ki zahteva podatke in izbrani festival, vrne vrednost True ali False glede na to ali ima uporabnik festival dodan med priljubljene.
+    \item \textbf{get\_is\_mod} - Glede na uporabnika, ki zahteva podatke in izbrani festival, vrne vrednost True ali False glede na to ali je uporabnik moderator festivala.
+    \item \textbf{get\_num\_favourites} - Glede na izbrani festival, vrne število vseh uporabnikov, ki imajo festival dodan med priljubljene.
+\end{itemize}
+
+\begin{lstlisting}[label=code2,caption=Primer serializacije podatkov za model \textit{Festival}.,frame=tb,captionpos=b]
+class FestivalSerializer(serializers.ModelSerializer):
+    is_favourite = serializers.SerializerMethodField()
+    is_mod = serializers.SerializerMethodField()
+    num_favourites = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Festival
+        fields = ['id', 
+                    'name', 
+                    'info', 
+                    'website', 
+                    'lat', 
+                    'lon',
+                    'date_start',
+                    'date_end',
+                    'img',
+                    'genre',
+                    
+                    'is_mod',
+                    'is_favourite',
+                    'num_favourites']
+        
+        def get_is_favourite(self, obj):
+            user = self.context['request'].user
+            return user in obj.favourite_by.all()
+        
+        def get_is_mod(self, obj):
+            user = self.context['request'].user
+            return user in obj.mods.all()
+        
+        def get_num_favourites(self, obj):
+            return len(obj.favourite_by.all())
+\end{lstlisting}
+
+Poleg serializacije podatkov, DRF omogoča tudi tako imenovane generične poglede (Generic Views).
+Ti pogledi ponujajo pogosto uporabljene vzorce operacij CRUD na modelih in s tem poenostavijo proces grajenja APIja tako, da se zmanjšajo potrebo po pisanju ponavljajoče kode.
+Prav tako omogočajo uporabo predefiniranih razredov s pravicami dostopa, iskanje po poljih modela ter paginacijo.
+V Izvorni kodi~\ref{code3} lahko vidimo primer generičnega pogleda \textit{ListCreateAPIView}, ki ponuja končne točke za operacije GET in POST.
+Preko te končne točke, lahko torej dostopamo do seznama vseh festivalov s filtri in opcijo iskanja ter določitve vrstnega reda rezultatov.
+Lahko pa na tej točki tudi kreiramo nov festival.
+
+\begin{lstlisting}[label=code3,caption=Primer pogleda za model \textit{Festival}\, ki omogoča kreiranje\, iskanje in vračanje festivalov urejenih po popularnosti in datumu.,frame=tb,captionpos=b]
+class FestivalList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = FestivalSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['name']
+
+    def perform_create(self, serializer):
+        festival = serializer.save()
+        festival.mods.add(self.request.user)
+
+    def get_queryset(self):
+        order_by = self.request.query_params.get('order')
+
+        queryset = Festival.objects.all()
+        user = self.request.user
+        if order_by == 'Popularity':
+            queryset = queryset.annotate(
+                most_popular=Count('favourite_by')
+                )
+                .all()
+                .order_by('-most_popular')
+        else:
+            queryset = queryset.order_by(
+                F('date_start').desc(nulls_last=True)
+            )
+    ...
+\end{lstlisting}
+
+Za delovanje APIja je potrebno poleg definicije modela, serializacije in pogleda za definirati še URL končne točke.
+To lahko storimo v datoteki \textit{urls.py}, kjer definiramo URL naslov za vsako točko.
+V naši aplikaciji smo poleg končnih točk za avtentikacijo implementirali 10 končnih točk in sicer:
+\begin{itemize}
+    \item \texttt{festivals/}
+    \item \texttt{festivals/\{int:pk\}}
+    \item \texttt{hotels/}
+    \item \texttt{festivals/\{int:pk\}/chats/}
+    \item \texttt{festivals/\{int:pk\}/chats/\{int:cpk\}}
+    \item \texttt{notifications/}
+    \item \texttt{posts/}
+    \item \texttt{posts/\{int:pk\}}
+    \item \texttt{posts/\{int:pk\}/comments}
+    \item \texttt{comments/\{int:pk\}}
+\end{itemize}
+
+\subsection{Strgalnik}
+Ena glavnih funkcij našega sistema je, da uporabniku omogoča prikaz preno\-čišč v bližini glasbenega festivala.
+Za implementacijo je bilo potrebno najprej ugotoviti, s kje bo naša aplikacija črpala podatke.
+Najlažje bi bilo, da bi obstajala storitev, ki bi ponujala brezplačen API, preko katerega bi lahko dostopali do podatkov, ki jih potrebujemo.
+Izkazalo se je, da nobena izmed storitev, ki bi nam ustrezala, tega ne ponuja.
+Za dostop do APIja spletnih strani Booking.com in Airbnb je tako potrebno čez dolgotrajen proces, po katerem šele lahko potem postanemo uradni partner.
+
+Zaradi navedenega problema smo se odločili, da bomo podatke strgali iz spletne strani Booking.com.
+Strganje podatkov smo izvedli s pomočjo Python knjižnice BeautifulSoup4.
+Uporabnik na čelni strani pri izbranem festivalu vnese parametre za iskanje.
+Na podlagi teh parametrov potem na zalednem delu skripta sestavi URL naslov, v taki obliki, kot če bi brskali po Bookingu, ter prebere vsebino strani in vrne rezultat v obliki JSON nazaj na čelni del.
+
+\section{Implementacija Mapbox zemljevida}
+Vsi zemljevidi so v celoti implementirani na čelnem delu aplikacije.
+Preden lahko uporabljamo Mapbox je potrebno ustvariti uporabniški račun, da lahko pridobimo žeton za dostop.
+Za osnoven zemljevid je potrebnih le nekaj vrstic kode, še pred tem pa je potrebno prenesti modul \textit{nuxt-mapbox}.
+Nato ustvarimo novo instanco zemljevida, pri tem pa v osnovi dodamo naslednje vrednosti:
+\begin{itemize}
+    \item \textbf{container} - referenca na HTML element, ki bo vseboval zemljevid
+
+    \item \textbf{style} - izbor izgleda zemljevida
+
+    \item \textbf{center} - koordinate, ki bodo centrirane
+
+    \item \textbf{zoom} - začetna povečava zemljevida
+
+\end{itemize}
+
+\begin{lstlisting}[label=code4,caption=Primer kode za prikaz lokacije na Mapbox zemljevidu.,frame=tb,captionpos=b]
+new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/outdoors-v12',
+    center: [lon, lat],
+    zoom: 16
+})
+
+let el = document.createElement('div')
+el.className = 'marker img1'
+const marker = new mapboxgl.Marker(el)
+    .setLngLat([lon, lat])
+    .addTo(map)
+\end{lstlisting}
+
+Bolj zanimiva pa je bila implementacija iskanja poti do festivala.
+Za to smo uporabili Mapbox Directions API v kombinaciji z Mapbox Search Box vnosnim poljem.
+Z uporabo Mapbox Directions API~\cite{mapboxdirections} smo lahko izračunali optimalne poti za vožnjo, ter prikazali navodila za pot do cilja.
+Search Box pa omogoča, da uporabnik izbere izhodiščno lokacijo.
+
+\subsection{Izbira izhodiščne lokacije}
+Uporabnik lahko izhodiščno lokacijo izbere na 2 načina.
+Pri prvem načinu uporabnik preko vnosnega polja Mapbox Search Box poišče lokacijo.
+Ob izbiri, se sproži dogodek "retrieve", preko katerega lahko potem dostopamo do lokacije in izluščimo koordinate.
+
+Druga opcija je, da uporabnik dovoli uporabo lokacije v aplikaciji.
+Če to stori, lahko le s klikom na gumb pridobi pot od svoje trenutne lokacije do prizorišča.
+
+Klic APIja izgleda tako:
+\begin{lstlisting}[label=code5,caption=URL za klic Mapbox Directions APIja\, ki vrne navodila za pot v formatu GeoJSON.,frame=tb,captionpos=b]
+const response = $fetch(
+    `https://api.mapbox.com/directions/v5/mapbox/driving/
+    ${startLocation.lon}%2C${startLocation.lat}%3B
+    ${props.lon}%2C${props.lat}?
+    alternatives=false
+    &geometries=geojson
+    &language=en
+    &overview=simplified
+    &steps=true
+    &access_token=${runtimeConfig.public.mapboxToken}`
+)
+\end{lstlisting}
+
+V odgovoru dobimo vsa navodila za vsak zavoj in vmesne točke, skupaj z pripadajočimi koordinatami.
+Poleg tega dobimo tudi podatke o času trajanja vožnje v sekundah, ter dolžine poti v metrih.
+Te podatke je potrebno nato še prikazati na zemljevidu.
+To smo naredili z naslednjo kodo:
+\begin{lstlisting}[label=code6,caption=Izvorna koda za prikaz poti na zemljevidu.,frame=tb,captionpos=b]
+map.on('load', () => {
+    map.addSource('route', {
+        'type': 'geojson',
+        'data': {
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+                'type': 'LineString',
+                'coordinates': props.directions.geoLines
+            }
+        }
+    });
+    map.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'route',
+        'layout': {
+            'line-join': 'round',
+            'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#26A69A',
+            'line-width': 5,
+        }
+    })
+})
+\end{lstlisting}
+
+S tem smo dodali pot na zemljevid, vendar je bilo potrebno potem ponovno centrirati zemljevid tako, da je vidna celotna pot.
+\begin{lstlisting}[label=code7,caption=Prilagoditev središča zemljevida in stopnje povečave\, da ustreza geografskemu območju poti.,frame=tb,captionpos=b]
+const bounds = new mapboxgl.LngLatBounds()
+props.directions.geoLines.forEach(([lon, lat]) => {
+    bounds.extend([lon, lat])
+})
+
+const padding = { top: 50, bottom: 50, left: 50, right: 50 }
+map.fitBounds(
+    bounds,
+    { padding }
+)
+\end{lstlisting}
+
+\section{Realnočasovna komunikacija}
+Pri implementaciji klepetov smo morali zagotoviti, da vsi uporabniki, ki so aktivni v določenem klepetu, prejmejo novo sporočilo takoj.
+To smo dosegli z uporabo Pusher Channels, ki sloni na tehnologiji WebSockets.
+Kako smo to vključili v naš sistem pa bomo opisali v naslednjem poglavju.
+
+Za delovanje Pusher Channels smo najprej namestili knjižnici \textbf{pusher} na zalednem delu ter \textbf{pusher-js} na čelnem delu.
+Potem smo ustvarili Pusher račun, da smo lahko pridobili pooblastila za uporabo Pusherja - \textit{app\_id, key in secret}.
+Na zalednem delu smo potem ustvarili novo datoteko s kodo, ki inicializira novo instanco Pusherja.
+Podobno smo storili tudi na čelnem delu, kjer pa je bilo potrebno kot parameter podati le \textit{key}.
+\begin{lstlisting}[label=code8,caption=Izvorna koda\, ki kreira novo instanco Pusherja na zalednem delu.,frame=tb,captionpos=b]
+import pusher, os
+
+pusher = pusher.Pusher(
+    app_id=os.environ.get('PUSHER_APP_ID'),
+    key=os.environ.get('PUSHER_KEY'),
+    secret=os.environ.get('PUSHER_SECRET'),
+    cluster='eu',
+    ssl=False
+)    
+\end{lstlisting}
+
+\subsection{Sporočila}
+Najprej smo implementirali realnočasovno sporočanje.
+Za začetek smo metodo \textit{perform\_create} v pogledu MessageList prilagodili tako, da poleg kreiranja novega objekta in shrambe v podatkovno bazo, takoj odda sporočilo vsem prijavljenim v kanalu klepeta.
+Potrebno je bilo podati ime kanala, ime dogodka (novo sporočilo), ter vsebino samega sporočila.
+\begin{lstlisting}[label=code9,caption=Pošiljanje novega sporočila vsem odjemalcem naročenim na kanal chat-{message.chat.id} z uporabo storitve Pusher.,frame=tb,captionpos=b]
+pusher.trigger(
+    f'chat-{message.chat.id}',
+    'new-message',
+    data
+)
+\end{lstlisting}
+
+S tem smo pokrili zaledni del, implementirati pa je bilo potrebno še prejemanje teh sporočil na čelnem delu.
+To smo naredili tako, da smo najprej ustvarili Nuxt vtičnik z instanco Pusherja.
+Do tega vtičnika smo potem lahko dostopali preko celotne aplikacije in preprečili možnost, da bi brez potrebe kreirali več instanc Pusherja, kot bi potrebovali.
+To nam je tudi omogočilo, da smo z eno instanco Pusherja upravljali tako nova sporočila, kot obvestila.
+\begin{lstlisting}[label=code10,caption=Nuxt vtičnik za novo instanco Pusherja.,frame=tb,captionpos=b]
+import Pusher from 'pusher-js'
+
+export default defineNuxtPlugin(nuxtApp => {
+    const pusher = new Pusher(runtimeConfig.public.pusherKey, {
+        cluster: 'eu'
+    })
+
+    nuxtApp.provide('pusher', pusher)
+})
+\end{lstlisting}
+Vse kar je bilo potem še potrebno je bilo poslušati na nova sporočila.
+Za to se je bilo potrebno naročiti na kanal za določen klepet, ter poslušati na dogodek 'new-message'.
+\begin{lstlisting}[label=code11,caption=Poslušanje na nova sporočila na čelnem delu.,frame=tb,captionpos=b]
+const channel = useNuxtApp().$pusher.subscribe(`chat-${chatId}`)       
+channel.bind('new-message', (data) => {
+    apiMessages.value.push(data)
+})
+\end{lstlisting}
+
+\subsection{Notifikacije}
+Podobno kot smo implementirali prejemanje sporočil v realnem času, smo implementirali tudi obvestila za prejeta sporočila.
+Razlika je bila le ta, da smo najprej iterirali čez vse klepete (za katere ima uporabnik vklopljena obvestila) in se za vsakega posebej naročili na nov kanal.
+
+\section{Večnivojski komentarji}
+Implementacija foruma, je bila časovno najbolj potratna, zaradi velikega števila funkcionalnosti, ki jih podpira.
+Za delovanje foruma smo v Djangu potrebovali modele CustomUser, Festival, Post in Comment, ter vse potrebne vmesne modele za všečkanje objav in komentarjev.
+
+Problem, ki se je pojavil pri implementaciji foruma, je bil ta, kako omogočiti večnivojsko komentiranje.
+
+
+\chapter{Uporabniški vmesnik}
+\label{UI}
+
+% - 3. nekaj skrinov slik uporabniškega vmesnika
+%% -- pri vsakem potem npr. opises filtre, možnosti itd.
+
+% TODO - neki od večnivojskih komentarju napisi
 
 \chapter{Zaključek}
 
-\LaTeX\ bi lahko najbolj preprosto opisali kot programski jezik namenjen oblikovanju besedil.
-Tako kot vsak visokonivojski programski jezik ima tudi \LaTeX\  številne ukaze za oblikovanje  besedila in okolja, ki omogočajo strukturiranje besedila.
-
-Vsi \LaTeX ovi ukazi se začnejo z levo poševnico  \verb=\=, okolja pa definiramo bodisi s parom zavitih oklepajev \{ in \} ali z ukazoma \verb=\begin{ }= in   \verb=\end{ }=.
-Ukazi imajo lahko tudi argumente, obvezni argumenti so podani v zavitih oklepajih, opcijski argumenti pa v oglatih oklepajih.
-
-Z ukazi torej definiramo naslov in imena avtorjev besedila, poglavja in podpoglavja in po potrebi bolj podrobno strukturiramo besedila na spiske, navedke itd.
-Posebna okolja so namenjena zapisu matematičnih izrazov, kratki primeri so v naslednjem poglavju.
-
-Vse besedilne konstrukte lahko poimenujemo in se s pomočjo teh imen nato  kjerkoli v besedilu na njih  tudi sklicujemo.
-
-\LaTeX\ sam razporeja besede v odstavke tako, da optimizira razmike med besedami v celotnem odstavku.
-Nov odstavek začnemo tako, da izpustimo v izvornem besedilu prazno vrstico. Da besedilo skoči v novo vrstico pa ukažemo z dvema levima poševnicama.
-Število presledkov med besedami v izvornem besedilo ni pomembno.
-
-
-\chapter{Matematično okolje in sklicevanje na besedilne konstrukte}
-\label{ch1}
-
-Matematična ali popolna indukcija je eno prvih orodij, ki jih spoznamo za dokazovanje trditev pri matematičnih predmetih.
-\begin{izrek}
-\label{iz:1}
-Za vsako naravno število $n$ velja
-\begin{equation}
-n < 2^n.
-\label{eq:1}
-\end{equation}
-\end{izrek}
-\begin{dokaz}
-Dokazovanje z indukcijo zahteva, da neenakost~\eqref{eq:1} najprej preverimo za najmanjše naravno število -- $0$. 
-Res, ker je $0 < 1 = 2^0$, je neenačba~\eqref{eq:1} za $n=0$ izpolnjena.
-
-Sledi indukcijski korak. S predpostavko, da je neenakost~\eqref{eq:1} veljavna pri nekem naravnem številu $n$, je potrebno pokazati, da je ista neenakost v veljavi tudi pri njegovem nasledniku -- naravnem številu $n+1$. 
-Računajmo.
-\begin{align}
-n+1 & < 2^n + 1       \label{eq:2}\\
-       & \le 2^n + 2^n \label{eq:3}\\
-       & = 2^{n+1}       \nonumber
-\end{align}
-Neenakost~\eqref{eq:2} je posledica indukcijske predpostavke, neenakost~\eqref{eq:3} pa enostavno dejstvo, da je za vsako naravno število $n$ izraz $2^n$ vsaj tako velik kot 1. 
-S tem je dokaz Izreka~\ref{iz:1} zaključen.
-\end{dokaz}
-
-Opazimo, da je \LaTeX\ številko izreka podredil številki poglavja.
-Na podoben način se lahko s pomočjo ukazov \verb|\label| in \verb|\ref| sklicujemo tudi na druge besedilne konstrukte, kot so med drugim poglavja, podpoglavja in plovke, ki jih bomo spoznali v naslednjem poglavju.
-
-
-\chapter{Plovke: slike in tabele}
-\label{ch2}
-
-Slike in daljše tabele praviloma vključujemo v dokument kot plovke.
-Pozicija plovke v končnem izdelku ni pogojena s tekom besedila, temveč z izgledom strani. 
-\LaTeX\ bo skušal plovko postaviti samostojno, praviloma na mestu, kjer se pojavi v izvornem besedilu, sicer pa na 
-vrhu strani, na kateri se na takšno plovko prvič sklicujemo. 
-Pri tem pa bo na vsako stran končnega izdelka želel postaviti tudi sorazmerno velik del besedila. 
-V skrajnem primeru, če imamo res preveč plovk na enem mestu besedila, ali če je plovka previsoka, se bo \LaTeX\ odločil za stran popolnoma zapolnjeno s plovkami.
-
-Poleg tega, da na položaj plovke vplivamo s tem, kam jo umestimo v izvorno besedilo, lahko na položaj plovke na posamezni strani prevedenega besedila dodatno vplivamo z opcijami \texttt{here, top} in \texttt{bottom}.
-Zelo velike slike je najbolje postaviti na posebno stran z opcijo \texttt{page}.
-Skaliranje slik po njihovi širini lahko prilagodimo širini strani tako, da kot enoto za širino uporabimo kar širino strani, npr. \verb=0.5\textwidth= bo raztegnilo sliko na polovico širine strani.
-Sliko lahko po potrebi tudi zavrtimo za 90 stopinj in jo razstegnemo na višino strani. 
-Tako bodo podrobnosti na sliki lažje berljive in prostor na strani bo bolje izkoriščen.
-
-Na vse plovke se moramo v besedilu sklicevati, saj kot beseda plovka pove, plovke plovejo po besedilu in se ne pojavijo točno tam, kjer nastopajo v izvornem besedilu.
-Vendar naj bosta  sklic na plovko v besedilu in sama plovka v oblikovanem besedilu čim bližje skupaj, tako da bralcu ne bo potrebno listati po diplomi. 
-Upoštevajte pa, da se naloge tiska dvostransko in da se hkrati vidi dve strani v dokumentu!
-Na to, kje se bo slika ali druga plovka pojavila v postavljenem besedilu lahko torej najbolj vplivamo tako, da v izvorni kodi plovko premikamo po besedilu nazaj ali naprej!
-
-Tabele je najbolje oblikovati kar neposredno v \LaTeX u, saj za oblikovanje tabel obstaja zelo fleksibilno okolje \texttt{tabular}.
-Slike pa je po drugi strani  pogosto najla\v zje oblikovati oziroma izdelati z drugimi orodji in programi, rezultate shraniti v formatu {\tt .pdf} ali {\tt .jpeg} in nato v \LaTeX u le vključiti ustrezno slikovno datoteko. Za pisanje besed, ki so vključene v slike, uporabite pisave/fonte, ki so čimbolj podobne pisavam v samem besedilu.
-
-Knjižnica \url{https://en.wikibooks.org/wiki/LaTeX/PGF/TikZ} 
-pa omo\-go\-ča risanje raznovrstnih grafov neposredno v okolju \LaTeX .
-
-Na vse tabele in slike se moramo v besedilu sklicevati, saj kot plovke v oblikovanem besedilu niso nujno na istem mestu kot v izvornem besedilu.
-Pri sklicevanju na slike uporabimo veliko začetnico, npr. ''glej Sliko \ref{pic1}'', saj gre za ime slike.
-
-
-
-\section{Formati slik}
-
-V  dokument \LaTeX\ lahko vključimo slike različnih formatov, tako
-bitne slike kot vektorske slike. Najbolj primerne so slike v formatu {\tt .pdf}, saj je tudi samo
-oblikovano besedilo v tem formatu, in slike v formatu {\tt .jpeg}.
-Slika~\ref{pic1} je npr. v formatu {\tt .jpeg}.
-
-\begin{figure}[htb]
-\begin{center}
-\includegraphics[width=0.7\textwidth]{galaksija}
-\end{center}
-\caption{Virtualno obogatena skulptura \cite{vodnjak}. Rezultate računalniško generirane animacije z video projektorjem projeciramo na kamnito skulpturo, da ustvarimo vtis, kot da bi po skulpturi polzele vodne kapljice \cite{video,solina2020skulpture}.}
-\label{pic1}
-\end{figure}
-
-
-
-\section{Podnapisi k slikam in tabelam}
-
-Vsaki sliki ali tabeli moramo dodati podnapis, ki na kratko pojasnjuje, kaj je na sliki ali tabeli. 
-Če nekdo le prelista diplomsko delo, naj bi že iz slik in njihovih podnapisov lahko na grobo razbral, kakšno temo naloga obravnava.
-
-Če slike povzamemo iz drugih virov, potem se moramo v podnapisu k taki sliki sklicevati na ta vir!
-
-
-\chapter{Struktura strokovnih besedil}
-\label{stroka}
-
-Strokovna besedila imajo ustaljeno strukturo, da bi lahko hitreje in lažje brali in predvsem razumeli taka besedila, saj načeloma vemo vnaprej, 
-kje v besedilu se naj bi nahajale določene informacije.
-
-Najbolj osnovna struktura strokovnega besedila je:
-\begin{description}
-\item[naslov besedila,] ki naj bo sicer kratek, a kljub temu dovolj poveden o vsebini besedila,
-\item[imena avtorjev] so običajno navedena po teži prispevka, prvi avtor je tisti, ki je besedilo dejansko pisal, zadnji pa tisti, ki je raziskavo vodil,
-\item[kontaktni podatki] -- poleg imena in naslova institucije je potreben vsaj naslov elektronske pošte,
-\item[povzetek] je kratko besedilo, ki povsem samostojno povzame vsebino in izpostavi predvsem  glavne rezultate ali zaključke,
-\item[ključne besede] so tudi namenjene iskanju vsebin med množico člankov,
-\item[uvodno poglavje] uvede bralca v tematiko besedila, razloži kaj je namen besedila, predstavi področje o katerem besedilo piše 
-(če temu ni namenjeno v celoti posebno poglavje) ter na kratko predstavi strukturo celotnega besedila,
-\item[poglavja] tvorijo zaokrožene celote, ki se po potrebi še nadalje členijo na podpoglavja, namenjena so recimo opisu orodij, 
-ki smo jih uporabili pri delu, teoretičnim rezultatom ali predstavitvi rezultatov, ki smo jih dosegli,
-\item[zaključek] še enkrat izpostavi glavne rezultate ali ugotovitve, jih primerja z dosedanjimi in morebiti poda tudi ideje za nadaljno delo,
-\item[literatura] je seznam vseh virov, na katere smo se pri svojem delu opirali, oziroma smo se na njih sklicevali v svojem besedilu.
-\end{description}
-
-Naslove poglavij in podpoglavij izbiramo tako, da lahko bralec že pri prelistavanju diplome in branju naslovov
-v grobem ugotovi, kaj je vsebina diplomskega dela.
-
-Strokovna besedila običajno pišemo v prvi osebi množine, v nevtralnem in umirjenem tonu. 
-Uporaba sopomenk ni zaželena, saj želimo zaradi lažjega razumevanja za iste pojme vseskozi uporabljati iste besede.
-Najpomembnejše ugotovitve je smiselno večkrat zapisati, na primer v povzetku, uvodu, glavnem delu in zaključku.
-Vse trditve naj bi temeljile bodisi na lastnih ugotovitvah (izpeljavah, preizkusih, testiranjih) ali pa z navajanjem ustreznih virov.
-
-Največ se lahko naučimo s skrbnim branjem dobrih zgledov takih besedil.
-
-
-\chapter{Pogoste napake pri pisanju v slovenščini}  % poglavje dodal Solina
-\label{slo}
-
-V slovenščini moramo paziti  pri uporabi pridevnikov, ki se ne sklanjajo, kot so npr. kratice. 
-Pravilno pišemo ``model CAD'' in \textbf{ne} ``CAD model''!
-
-Pri sklanjanju tujih imen ne uporabljamo vezajev, pravilno je Applov operacijski sistem in \textbf{ne} Apple-ov.
-
-Pika, klicaj in vprašaj so levostični: pred njimi ni presledka, za njimi pa je presledek. 
-Klicajev in vprašajev se v strokovnih besedilih načeloma izogibamo. Oklepaji so desnostični in zaklepaji levostični: (takole).
-
-Z narekovaji označujemo premi govor, naslove, citate ali pa z njim dajemo besedam poseben pomen. Narekovaji so stična ločila. Ločimo različne narekovaje, vendar je v
-\LaTeX u najbolj enostavno uporabiti ``dvojni narekovaj zgoraj''. Za druge vrste narekovajev je potrebno uvoziti dodatne pakete ali fonte.
-Besede lahko vizualno označimo tudi z uporabo drugih pisav  iz iste družine, npr. 
-kurzivno in krepko pisavo, vendar pri uporabi teh fontov ne smemo pretiravati.
-
-Vezaj  je levo in desno stičen, npr. \verb=slovensko-angleški slovar= in ga pišemo z enim znakom za pomišljaj.
-V slovenščini je presledek pred in po pomišljaju: Pozor -- hud pes! (\verb=Pozor -- hud pes!=).
-V angleščini pa je za razliko pomišljaj levo in desno stičen in se v \LaTeX u piše s tremi  pomišljaji: \verb=---=.
-S stičnim pomišljajem pa lahko nadomeščamo predlog od \dots do, denimo pri navajanju strani, npr. preberite strani 7--11 (\verb=7--11=).
-
-``Pred ki, ko, ker, da, če vejica skače''. 
-To osnovnošolsko pravilo smo v življenju po potrebi uporabljali, dopolnili, morda celo pozabili. 
-Pravilo sicer drži, ampak samo če je izpolnjenih kar nekaj pogojev (npr. da so ti vezniki samostojni, enobesedni, ne gre za vrivek itd.).
-Povedki so med seboj ločeni z vejicami, razen če so zvezani z in, pa, ter, ne–ne, niti–niti, ali, bodisi, oziroma.
-Sicer pa je bolje pisati kratke stavke kot pretirano dolge.
-
-V računalništvu se stalno pojavljajo novi pojmi in nove besede, za katere pogosto še ne obstajajo uveljavljeni slovenski izrazi.
-Kadar smo v dvomih, kateri slovenski izraz je primeren, si lahko pomagamo z iskanjem na kakšnem od slovenskih spletnih slovarjev~\cite{slovarji}, še posebej v
-\textit{Islovarju} Slovenskega društva Informatika \cite{Islovar} in Slovarju Slovenskega društva za razpoznavanje vzorcev~\cite{sdrv}.
-Sicer pa glavni vir za reševanje slovenskih jezikovnih zadreg spletišče \textit{Fran}~\cite{fran}.
-
-
-\chapter{Koristni nasveti pri pisanju v \LaTeX{u}}
-\label{latex}
-
-Programski paket \LaTeX\ je bil prvotno predstavljen v priročniku~\cite{lamport} in je v resnici nadgradnja sistema \TeX\ avtorja Donalda Knutha~\cite{knuth}, 
-znanega po svojih knjigah o umetnosti programiranja
-ter Knuth-Bendixovem algoritmu~\cite{knuth1983simple}.
-\TeX\ in njegove izpeljanke so odprtokodni programi.
-
-Različnih implementacij \LaTeX{}a je cela vrsta.
-Za OS X priporočamo TeXShop, za Windows PC pa MikTeX.
-Spletna verzija, ki poenostavi sodelovanje pri pisanju, je Overleaf.
-
-Včasih smo si pri pisanju v \LaTeX{}u  pomagali predvsem s tiskanimi pri\-ro\-čni\-ki~\cite{lamport}, danes pa je enostavneje in hitreje, da ob vsakem problemu za pomoč enostavno povprašamo Google, 
-saj je na spletu cela vrsta forumov za pomoč pri \TeX iranju.
-
-\LaTeX\ včasih ne zna pravilno deliti slovenskih besed, ki vsebujejo črke s streši\-ca\-mi. 
-Če taka beseda štrli preko desnega roba,  lahko \LaTeX{}u pokažemo, kje se tako besedo deli takole: \verb=ra\-ču\-nal\-ni\-štvo=.
-Katere vrstice so predolge lahko vidimo tako, da dokument prevedemo s vključeno opcijo \texttt{draft}: \verb=\documentclass[a4paper, 12pt, draft]{book}=.
-
-Predlagamo, da v izvornem besedilu začenjate vsak stavek v novi vrstici, saj \LaTeX\ sam razporeja besede po vrsticah postavljenega besedila. 
-Bo pa zato iskanje po izvornem besedilu in popravljanje veliko hitrejše. 
-Večina sistemov za \TeX{}iranje sicer omogoča s klikanjem enostavno prestopanje  iz prevedenega besedila na ustrezno mesto v izvornem besedilu in obratno.
-
-Boljšo preglednost dosežemo tako kot pri pisanju programske kode -- z vizualnim urejanjem kode in izpuščanjem praznih vrstic.
-Pri spreminjanju in dodajanju izvornega besedila je najbolje pogosto prevajati, da se sproti prepričamo, če so naši nameni pravilno izpolnjeni.
-
-Kadar besedilo, ki je že bilo napisano z nekim vizualnim urejevalnikom (npr. z Wordom), želimo prenesti v \LaTeX, je tudi najbolje to delati postopoma s posameznimi bloki besedila, 
-tako da lahko morebitne napake hitro identificiramo in odpravimo.
-Za prevajanje Wordovih datotek v \LaTeX\ -- in obratno -- sicer obstajajo prevajalniki, ki pa običajno ne generirajo tako čisto logično strukturo besedila, kot jo sicer \LaTeX\ omogoča.
-Hiter in enostaven način prevedbe besedila, ki  zahteva sicer ročne dopolnitve, lahko poteka tudi tako, da besedilo urejeno z vizualnim urejevalnikom najprej shranimo v formatu pdf, 
-nato pa to besedilo uvozimo v urejevalnik, kjer urejamo izvorno besedilo v formatu \LaTeX.
-
-
-
-
-\section{Pisave v \LaTeX u}
-
-V  \LaTeX ovem okolju lahko načeloma uporabljamo poljubne pisave. 
-Izbira poljubne pisave pa ni tako enostavna kot v vizualnih urejevalnikih besedil.
-Posamezne oblikovno medseboj usklajene pisave so običajno združene v družine pisav.
-V \LaTeX u se privzeta družina pisav imenuje Computer Modern,
-kjer so poleg navadnih črk (roman v \LaTeX u) na voljo tudi kurzivne črke (\textit{italic} v \LaTeX u), 
-krepke (\textbf{bold} v \LaTeX u), kapitelke (\textsc{small caps} v \LaTeX u), linearne črke ({\textsf{san serif} v \LaTeX u}), pisava pisalnega stroja (\texttt{typewriter} v \LaTeX u) in nekatere njihove kombinacije, npr. krepke linearne črke 
-({\textbf{\textsf{san serif}} v \LaTeX u}).
-V istem dokumentu zaradi skladnega izleda uporabljamo običajno le pisave ene družine. 
-Pomembna je tudi konsistentna raba večih pisav in da ne pretiravamo z mešanjem različnih pisav.
-
-Ko začenjamo uporabljati \LaTeX, je zato najbolj smiselno uporabljati kar privzete pisave, s katerimi je napisan tudi ta dokument.
-Z ustreznimi ukazi  lahko nato preklapljamo med navadnimi, kurzivnimi, krepkimi in drugimi pisavami. 
-Zelo enostavna je tudi izbira velikosti črk.
-\LaTeX\  odlično podpira večjezičnost, tudi v sklopu istega dokumenta, saj obstajajo pisave za praktično vse jezike, tudi take, ki ne uporabljajo latinskih črk.
-
-Za prikaz programske kode se pogosto uporablja pisava, kjer imajo vse črke enako širino, kot so  črke na mehanskem pisalnem stroju ({\texttt{typewriter} v \LaTeX u}).
-
-Najbolj priročno okolje za pisanje kratkih izsekov programske kode je okolje \texttt{verbatim}, saj ta ohranja vizualno organizacijo izvornega besedila in ima privzeto pisavo pisalnega stroja.
-
-\begin{verbatim}
-for (i = 0; i < 100; i++)
-   for (j = i; j < 10; j++)
-      some_function(i, j);
-\end{verbatim}
-
-
-
-
-\chapter{Kaj pa literatura?}
-\label{lit}
-
-Kot smo omenili že v uvodu, je pravi način za citiranje literature uporaba \BibLaTeX{a}~\cite{biblatex}. 
-\BibLaTeX\ zagotovi, da pri določeni vrsti literature ne izpustimo 
-nobene obvezne informacije 
-in da vse informacije dosledno navajamo na enak način in po istem vrstnem redu.
-\BibLaTeX\ je nadgradnja starejšega sistema \BibTeX. Novejši sistem je bolje prilagojen slovenščini in navajanju spletnih virov. Sicer pa so starejše datoteke \texttt{.bib} kompatibilne z \BibLaTeX om.
-
-Osnovna ideja \BibLaTeX{a} je, da vse informacije o literaturi zapisujemo v posebno datoteko, v našem primeru je to \texttt{literatura.bib}.
-Vsakemu viru v tej datoteki določimo simbolično ime.
-V  našem primeru je v tej datoteki nekaj najbolj značilnih zvrsti literature, kot so knjige~\cite{lamport}, 
-članki v revijah~\cite{leonardo} in zbornikih konferenc~\cite{ciuha2010visualization},
-poglavja v knjigah~\cite{poglavje_springer}, 
-spletni viri~\cite{slovarji,video}, 
-tehnično poročilo~\cite{andersen2012kinect}, 
-diplome~\cite{diploma} itd.
-Diploma~\cite{diploma} iz leta 1990 je bila prva diploma na tedanji Fakulteti za elektrotehniko in računalništvo, ki je bila oblikovana z \LaTeX om!
-Reference, ki so na spletnih straneh arhivirane v elektronski obliki, imajo običajno  \v stevilko DOI (\url{http://dx.doi.org}), ki jo zato tudi vključimo v izpis literature in tako bralcu elektronske verzije naše publikacije ponudimo neposredno povezavo do elektronske kopije te reference.
-
-Po vsaki spremembi pri sklicu na literaturo moramo najprej prevesti izvorno besedilo s prevajalnikom \LaTeX, nato s prevajalnikom  \BibLaTeX, ki ustvari datoteko  {\tt vzorec\_dip\_Seminar.bbl}, in nato še dvakrat s prevajalnikom  \LaTeX.
-V okolju Overleaf je to večkratno prevajanje z različnimi prevajalniki uporabniku skrito. Zato tudi začetnim uporabnikom \LaTeX a svetujemo uporabo Overleafa.
-
-Kako se spisek literature nato izpiše (ali so posamezni viri razvrščeni po vrstnem redu sklicevanja, ali po abecedi priimkov prvih avtorjev, ali se imena avtorjev pišejo pred priimki itd.) je odvisno od parametrov paketa \BibLaTeX.
-V diplomi bomo uporabili parametre 
-\texttt{style=numeric}, kar pomeni, da bodo sklici na literaturo v besedilu označeni z zaporednimi številkami, za vrstni red izpisa referenc pa 
-\texttt{sorting=nty}, kar pomeni, da bodo reference urejene po priimkih prvih avtorjev, nato po naslovu reference in nazadnje po letu izdaje~\cite{ctan}.
-Zato je potrebno pri določenih zvrsteh literature, ki nima avtorjev, dodati parameter \texttt{key}, ki določi vrstni red vira po abecedi.
-
-Ko začenjamo uporabljati \BibLaTeX\ je lažje, če za urejanje datoteke \texttt{.bib} uporabljamo kar isti urejevalnik kot za urejanje datotek \texttt{.tex}, 
-čeprav obstajajo tudi posebni urejevalniki oziroma programi za delo z datotekami \texttt{.bib}.
-
-Le če se  na določen vir v besedilu tudi sklicujemo, se bo ta vir pojavil tudi v spisku literature.
-Tako je avtomatično zagotovljeno, da se na vsak vir v seznamu literature tudi sklicujemo v besedilu diplome.
-V datoteki \texttt{.bib} imamo sicer lahko veliko več virov za literaturo, kot jih bomo uporabili v diplomi.
-
-
-\section{Zbiranje virov za seznam literature}
-
-Vire v formatu \texttt{.bib}  lahko enostavno poiščemo in prekopiramo iz spletnih strani založnikov ali različnih akademskih spletnih portalov za iskanje znanstvene literature.
-Izvoz  referenc v Google učenjaku še dodatno poenostavimo, če v nastavitvah izberemo \BibTeX\ kot želeni format za izvoz navedb.
-Navedbe, ki jih  prekopiramo iz Google učenjaka in drugih podobnih akademskih portalov, moramo pred uporabo nujno preveriti, saj so taki navedki pogosto generirani povsem avtomatično in lahko vsebujejo napačne ali nepopolne podatke.
-Najpogosteje je napačen tip publikacije!
-
-Pri sklicevanju na literaturo na koncu stavka moramo paziti, da je pika po ukazu \verb=\cite{ }=.
-Da \LaTeX\ ne bi delil vrstico ravno tako, da bi sklic na literaturo v oglatih oklepajih začel novo vrstico, lahko pred sklicem na literaturo dodamo nedeljiv presledek: \verb=~\cite{ }=.
-
-Običajno se v besedilu sklicujemo  na nek vir ali več virov na koncu trdilnega stavka. 
-Kadar pa omenimo avtorja nekega vira, pa sklic običajno vstavimo za njegovim priimkom.
-
-
-Dandanes  se skoraj  vsi pri iskanju informacij vedno najprej lotimo iskanja preko svetovnega spleta.
-Rezultati takega iskanja pa so pogosto spletne strani, ki danes obstajajo, jutri pa jih morda ne bo več, ali pa vsaj ne v taki obliki, kot smo jo prebrali.
-Smisel navajanja literature pa je, da tudi po dolgih letih nekdo, ki bo bral vašo diplomo, lahko poišče vire, ki jih navajate v diplomi.
-
-Znanstveni rezultati, ki so objavljeni v obliki recenziranih člankov, bodisi v konferenčnih zbornikih, še bolje pa v znanstvenih revijah, so veliko bolj izčiščen in zanesljiv vir informacij, saj
-so taki članki šli skozi recenzijske postopke. Predvsem pa so taki članki stabilen vir informacij, saj se načeloma po njihovi objavi ne spreminjajo več.
-Skoraj vsi ti članki so dandanes dosegljivi tudi v elektronski obliki, bodisi v arhivih založnikov, univerzitetnih repozitorijih ali tudi na osebnih spletnih straneh njihovih avtorjev.
-Zato na svetovnem spletu začenjamo iskati vire za strokovna besedila predvsem preko akademskih spletnih portalov, kot so npr. Google učenjak, Research Gate ali Academia, saj so na teh portalih rezultati iskanja le akademske publikacije.
-Če je za dostop do nekega članka potrebno plačati, se obrnemo za pomoč in dodatne informacije na  našo knjižnico.
-
-Za označevanje člankov, ki so na voljo v elektronski obliki, se je v zadnjem času uveljavila oznaka DOI
-(\url{https://www.doi.org}), kar močno olajša iskanje teh referenc na spletu.
-Založniki tudi starejšim člankom, ki so na voljo v elektronski obliki, za nazaj določajo oznake DOI.
-Zato poskusite poiskati ustrezno oznako DOI za vsak članek, ki ga citirate in jo vključite v seznam literature.
-
-Če res ne gre drugače, pa je pomembno, da pri sklicevanju na običajni spletni vir vedno navedemo tudi datum, kdaj smo dostopali do tega vira.
-
-Z uporabo \BibLaTeX{a} je možno natisniti seznam literature posebej za določene vrste referenc, na primer za članke v znanstvenih revijah, članke v konferenčnih zbornikih in poglavja v knjigah, kot je prikazano tudi v tem vzorcu diplome. Pri zbiranju literature si zato prizadevajte čimbolj napolniti sezname teh treh vrst referenc.
-
-
-\chapter{Skladnost s standardom PDF/A}
-\label{PDF}
-
-
-Elektronsko verzijo diplome je potrebno oddati preko sistema STUDIS v formatu PDF/A ~\cite{howtopdfa,pdfa},
-natančneje v formatu PDF/A-1b. 
-PDF/A format je namenjen dolgoročnemu arhiviranju elektronskih dokumentov.
-Dokument v formatu PDF/A mora vsebovati vse potrebne informacije za prikazovanje in tiskanje dokumenta. To pomeni, da mora dokument  vsebovati vso besedilo, vse slike, fonte in barvne informacije.
-Prva verzija standarda PDF/A, to je PDF/A-1 je bil objavljena leta 2005.
-Standard PDF/A-1 določa dva nivoja skladnosti: PDF/A-1a in PDF/A-1b.
-Nivo a (accesible) mora ustrezati vsem zahtevam standarda.
-Nivo b (basic) pa zahteva le, da se ohrani vizualni izgled dokumenta.
-Diplome, ki jih je potrebno oddati na sistemu STUDIS, morajo ustrezati nivoju standarda 
-PDF/A-1b.
-
-\LaTeX\ in omenjeni format imata še nekaj težav s sobivanjem. 
-Paket \texttt{pdfx.sty}, ki naj bi \LaTeX{u} omogočal podporo formatu PDF/A ne deluje vedno
-v skladu s pričakovanji. 
-
-Zato raje priporočamo uporabo enega od mnogih spletnih mest, ki omo\-go\-ča\-jo konverzijo pdf datotek v obliko,
-ki je skladna s standardom PDF/A-1b, npr. \url{https://pdf.online/pdf-to-pdfa}, kjer je
-možno tudi testirati, ali je neka pdf datoteka skladna s tem standardom.
-
-V predlogi so poleg izvornega  dokumenta \texttt{diploma-FRI-vzorec.tex}, še vložena slika \texttt{galaksija.jpeg}, datoteka \texttt{literatura.bib} za uporabljeno literaturo  ter
-ikone za licenco Creative Commons.
-
-
-\chapter{Sklepne ugotovitve}
-
-Uporaba \LaTeX{a} in \BibLaTeX{a} je v okviru Diplomskega seminarja \textbf{obvezna}!
-Izbira -- \LaTeX\ ali ne \LaTeX\ -- pri pisanju dejanske diplomske naloge pa je pre\-pu\-šče\-na dogovoru med diplomantom in njegovim mentorjem.
-
-Res je, da so prvi koraki v \LaTeX{}u težavni. 
-Ta dokument naj služi kot začetna opora pri hoji.
-Pri kakršnihkoli nadaljnih vprašanjih ali napakah pa svetujemo uporabo Googla, saj je spletnih strani za pomoč pri odpravljanju težav pri uporabi \LaTeX{}a ogromno.
-
-Preden diplomo oddate na sistemu STUDIS, še enkrat preverite, če so slovenske besede, ki vsebujejo črke s strešicami,  pravilno deljene in da ne segajo preko desnega roba.
-Poravnavo po vrsticah lahko kontrolirate tako, da izvorno datoteko enkrat testno prevedete z opcijo \texttt{draft}, kar vam pokaže  predolge vrstice.
-
+\section{Nadaljnji razvoj}
+Zaradi kompleksnosti projekta, je možnosti za nadgradnje projekta veliko. 
 
 
 %\cleardoublepage
