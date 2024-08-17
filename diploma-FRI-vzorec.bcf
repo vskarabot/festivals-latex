@@ -2369,24 +2369,27 @@
     <bcf:citekey order="6" intorder="1">django</bcf:citekey>
     <bcf:citekey order="7" intorder="1">drf</bcf:citekey>
     <bcf:citekey order="8" intorder="1">postgre</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">pusher</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">mapbox</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">docker</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">docker</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">pusher</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">mapbox</bcf:citekey>
     <bcf:citekey order="12" intorder="1">vuetify</bcf:citekey>
     <bcf:citekey order="13" intorder="1">git</bcf:citekey>
     <bcf:citekey order="14" intorder="1">github</bcf:citekey>
     <bcf:citekey order="15" intorder="1">firebase</bcf:citekey>
     <bcf:citekey order="16" intorder="1">vscode</bcf:citekey>
     <bcf:citekey order="17" intorder="1">bs4</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">djoser</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">hydration</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">mvt</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">juba2015learning</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">websockets</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">pusher</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">mapboxservices</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">containerization</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">mapboxdirections</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">bookingapi</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">djoser</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">hydration</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">mvt</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">juba2015learning</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">websockets</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">pusher</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">mapboxservices</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">containerization</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">airbnbapi</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">mapboxdirections</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">djangoselfreference</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

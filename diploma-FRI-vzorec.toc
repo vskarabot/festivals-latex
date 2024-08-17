@@ -17,25 +17,40 @@
 \contentsline {section}{\numberline {3.2}Diagram primerov uporabe}{8}{section.3.2}%
 \contentsline {chapter}{\numberline {4}Uporabljene tehnologije in orodja}{11}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Nuxt.js}{12}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Django in DRF}{12}{section.4.2}%
+\contentsline {section}{\numberline {4.2}Django in Django REST Framework}{12}{section.4.2}%
 \contentsline {section}{\numberline {4.3}PostgreSQL}{13}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Pusher Channels}{13}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Mapbox}{13}{section.4.5}%
 \contentsline {section}{\numberline {4.6}Docker}{14}{section.4.6}%
 \contentsline {chapter}{\numberline {5}Razvoj rešitve}{15}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Arhitektura aplikacije}{15}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Podatkovni model}{16}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Zaledni del}{16}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Delo s podatkovno bazo}{17}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}API}{18}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Strgalnik}{21}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Implementacija Mapbox zemljevida}{22}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Izbira izhodiščne lokacije}{23}{subsection.5.4.1}%
-\contentsline {section}{\numberline {5.5}Realnočasovna komunikacija}{25}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Sporočila}{26}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Notifikacije}{27}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Večnivojski komentarji}{27}{section.5.6}%
-\contentsline {chapter}{\numberline {6}Uporabniški vmesnik}{29}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Zaključek}{31}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Nadaljnji razvoj}{31}{section.7.1}%
-\contentsline {chapter}{Literatura}{33}{chapter*.7}%
+\contentsline {section}{\numberline {5.2}Podatkovni model}{15}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Zaledni del}{18}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Delo s podatkovno bazo}{18}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}API}{21}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Strgalnik}{24}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Implementacija Mapbox zemljevida}{25}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Izbira izhodiščne lokacije}{26}{subsection.5.4.1}%
+\contentsline {section}{\numberline {5.5}Realnočasovna komunikacija}{28}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Sporočila}{29}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Notifikacije}{30}{subsection.5.5.2}%
+\contentsline {section}{\numberline {5.6}Večnivojski komentarji}{30}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Firebase}{33}{section.5.7}%
+\contentsline {chapter}{\numberline {6}Predstavitev aplikacije}{35}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Uporabniški vmesnik}{35}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Domača stran}{35}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}Festivalska stran}{38}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Prenočišča v bližini}{38}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Navodila za pot}{39}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Forum}{39}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Objave}{39}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Komentarji}{40}{subsection.6.3.2}%
+\contentsline {section}{\numberline {6.4}Klepetalnica}{41}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Klepet}{41}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Obvestila}{42}{subsection.6.4.2}%
+\contentsline {chapter}{\numberline {7}Zaključek}{45}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Možnosti nadaljnjega razvoja}{46}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Uradni partnerji}{46}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Klepeti}{47}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.3}Zemljevidi}{47}{subsection.7.1.3}%
+\contentsline {chapter}{Literatura}{49}{chapter*.7}%

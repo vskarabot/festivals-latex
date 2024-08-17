@@ -35,6 +35,38 @@
       \verb https://github.com/about
       \endverb
     \endentry
+    \entry{bookingapi}{online}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeltitlesource}{title}
+      \field{title}{About the Booking.com Connectivity APIs}
+      \field{urlday}{6}
+      \field{urlmonth}{8}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://developers.booking.com/connectivity/docs
+      \endverb
+      \verb{url}
+      \verb https://developers.booking.com/connectivity/docs
+      \endverb
+    \endentry
+    \entry{airbnbapi}{online}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeltitlesource}{title}
+      \field{title}{API Terms of Service - Airbnb Help Center}
+      \field{urlday}{16}
+      \field{urlmonth}{8}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.airbnb.com/help/article/3418
+      \endverb
+      \verb{url}
+      \verb https://www.airbnb.com/help/article/3418
+      \endverb
+    \endentry
     \entry{bs4}{online}{}
       \field{sortinit}{b}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
@@ -65,6 +97,22 @@
       \endverb
       \verb{url}
       \verb https://firebase.google.com/docs/storage
+      \endverb
+    \endentry
+    \entry{mapboxdirections}{online}{}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labeltitlesource}{title}
+      \field{title}{Directions API | API Docs | Mapbox}
+      \field{urlday}{6}
+      \field{urlmonth}{8}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.mapbox.com/api/navigation/directions/
+      \endverb
+      \verb{url}
+      \verb https://docs.mapbox.com/api/navigation/directions/
       \endverb
     \endentry
     \entry{django}{online}{}
@@ -325,20 +373,20 @@
       \verb https://vuejs.org/guide/scaling-up/ssr.html
       \endverb
     \endentry
-    \entry{typescript}{online}{}
+    \entry{djangoselfreference}{online}{}
       \field{sortinit}{T}
       \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
       \field{labeltitlesource}{title}
-      \field{title}{TypeScript: JavaScript With Syntax For Types.}
-      \field{urlday}{2}
+      \field{title}{Typically, a self-referential foreign key is used to create the hierarchical structure.}
+      \field{urlday}{10}
       \field{urlmonth}{8}
       \field{urlyear}{2024}
       \field{urldateera}{ce}
       \verb{urlraw}
-      \verb https://www.typescriptlang.org/
+      \verb https://books.agiliq.com/projects/django-orm-cookbook/en/latest/self_fk.html
       \endverb
       \verb{url}
-      \verb https://www.typescriptlang.org/
+      \verb https://books.agiliq.com/projects/django-orm-cookbook/en/latest/self_fk.html
       \endverb
     \endentry
     \entry{vscode}{online}{}
